@@ -1,7 +1,7 @@
 """imports"""
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
-from .models import Post, Comment
+from .models import Post, Comment, Category
 
 @admin.register(Post)
 class PostAdmin(SummernoteModelAdmin):
@@ -11,6 +11,12 @@ class PostAdmin(SummernoteModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_filter = ('status', 'created_on')
     summernote_fields = ('content',)
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    """Category Admin Class"""
+    list_display = ['name']
 
 
 @admin.register(Comment)

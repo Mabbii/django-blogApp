@@ -1,9 +1,23 @@
 """imports"""
 from django.db import models
 from django.contrib.auth.models import User
+from django.shortcuts import reverse
 from cloudinary.models import CloudinaryField
 
 STATUS = ((0, "Draft"), (1, "Published"))
+
+
+class Category(models.Model):
+    """To categorize post accourdingly"""
+    name = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        """retrn back to home"""
+        return reverse('home')
+
 
 class Post(models.Model):
     """Post Model"""
@@ -13,6 +27,7 @@ class Post(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     content = models.TextField()
     featured_image = CloudinaryField('image', default='placeholder')
+    category = models.CharField(max_length=250, default='default')
     excerpt = models.TextField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
@@ -28,6 +43,10 @@ class Post(models.Model):
     def number_of_likes(self):
         """to count total number of likes"""
         return self.likes.count()
+
+    def get_absolute_url(self):
+        """return to required page"""
+        return reverse('post_detail', args=[str(self.slug)])
 
 
 class Comment(models.Model):

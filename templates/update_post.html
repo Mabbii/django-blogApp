@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Edit Blog {% endblock %}
+{% block content %}
+
+<h2 class="text-center">Edit Blog:</h2 >
+
+<div class="registration-form">
+    <div class="form-control">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-icon"><span><i class="icon icon-user"></i></span></div>
+            {% csrf_token %}
+            {{ form.as_p }}
+              <button class="btn btn-primary">Update</button>
+    </div>
+</div>
+
+{% endblock %}

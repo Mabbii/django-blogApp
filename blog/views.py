@@ -3,8 +3,9 @@ from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic, View
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from .models import Post
-from .form import CommentForm
+from django.urls import reverse_lazy
+from .models import Post, Category
+from .form import CommentForm, PostForm
 
 
 class PostList(generic.ListView):
@@ -73,3 +74,31 @@ class PostLike(View):
         else:
             post.likes.add(request.user)
         return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+
+
+class AddPost(generic.CreateView):
+    """Create new Blog Post"""
+    model = Post
+    form_class = PostForm
+    template_name = "Add_Post.html"
+
+
+class UpdatePost(generic.UpdateView):
+    """to update the blog"""
+    model = Post
+    form_class = PostForm
+    template_name = 'update_post.html'
+
+
+class DeltePost(generic.DeleteView):
+    """To Delte the Blog"""
+    model = Post
+    template_name = 'delete_post.html'
+    success_url = reverse_lazy('home')
+
+
+class AddCategory(generic.CreateView):
+    """To add Categories"""
+    model = Category
+    template_name = 'add_category.html'
+    fields = '__all__'
